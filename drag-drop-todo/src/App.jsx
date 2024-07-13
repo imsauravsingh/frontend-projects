@@ -1,35 +1,69 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import InputBox from "./components/inputBox/index";
+import TodoList from "./components/todoList";
+import "./App.css";
+import { DragDropContext } from "react-beautiful-dnd";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [input, setInput] = useState();
+  const [list, setList] = useState([
+    { id: 123, todo: "test", isDone: false },
+    { id: 456, todo: "test2", isDone: false },
+  ]);
+  const [completedTodos, setCompletedTodos] = useState([
+    { id: 789, todo: "completed", isDone: false },
+  ]);
 
+  const handleAdd = (val) => {
+    if (val) {
+      setList((pre) => [...pre, { id: Date.now(), todo: val, isDone: false }]);
+      setInput("");
+    }
+  };
+
+  const onDragEnd = (result) => {
+    console.log({ result });
+    const { destination, source } = result;
+    if (!destination) return;
+    if (
+      destination?.droppableId === source?.droppableId &&
+      destination?.index === source?.index
+    )
+      return;
+
+    let add,
+      active = list,
+      complete = completedTodos;
+
+    if (source?.droppableId === "ActiveList") {
+      add = active[source?.index];
+      active.splice(source?.index, 1);
+    } else {
+      add = complete[source?.index];
+      complete.splice(source?.index, 1);
+    }
+
+    if (destination?.droppableId === "ActiveList") {
+      active.splice(destination?.index, 0, add);
+    } else {
+      complete.splice(destination?.index, 0, add);
+    }
+  };
+  console.log({ input, list });
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <span className="heading">Todo List</span>
+      <InputBox handleAdd={handleAdd} />
+      <DragDropContext onDragEnd={onDragEnd}>
+        <TodoList
+          list={list}
+          setList={setList}
+          completedTodos={completedTodos}
+          setCompletedTodos={setCompletedTodos}
+        />
+      </DragDropContext>
+    </div>
+  );
 }
 
-export default App
+export default App;

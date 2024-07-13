@@ -1,0 +1,14 @@
+.todo {
+  display: flex;
+  flex-direction: row;
+  margin: 0.25rem;
+  padding: 12px;
+  gap: 12px;
+  background-image: url('../../assets/image.png');
+  transition: 0.2s;
+}
+
+.todo:hover {
+  box-shadow: 0 0 5px #000;
+  transform: scale(1.03);
+}
