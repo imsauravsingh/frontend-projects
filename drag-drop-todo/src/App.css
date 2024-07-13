@@ -1,0 +1,64 @@
+.app {
+    width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #2f74c0;
+      font-family: "Neucha", cursive;
+}
+
+.heading {
+  text-transform: uppercase;
+  font-size: 40px;
+  margin: 30px 0;
+  color: #fff;
+  z-index: 1;
+  text-align: center;
+}
+
+.container {
+  width: 95%;
+  display: flex;
+  margin-top: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.todos {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  border-radius: 5px;
+  background-color: #32c3cd;
+  gap: 12px;
+}
+
+.todos__heading {
+  font-size: 30px;
+  color: #fff;
+}
+
+@media (max-width: 700px) {
+  .container {
+    flex-direction: column;
+  }  
+  .todos {
+    width: 95%;
+  }
+}
+.dragactive {
+background-color: #2ca6af;
+}
+
+.dragcomplete {
+background-color: #b74d3a !important;
+}
+
+.remove {
+  background-color: #eb6750;
+}
+.drag {
+  box-shadow: 0 0 20px black;
+}
